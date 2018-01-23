@@ -1,6 +1,6 @@
 <template>
-	<div class="sectionBox pt10 white">
-		<div v-for="(item, index) in ticketAmounts" class="radius4 overhidden bg-lightred m010 mbottom10">
+	<div class="sectionBox pt10">
+		<div v-for="(item, index) in ticketAmounts" class="radius4 overhidden bg-lightred m010 mbottom10 white">
 			<ul class="displaybox p2010">
 				<li><img class="w50 disblock" src="../assets/icon_ticket.png"></li>
 				<li class="boxflex01 mleft10 t-left">
@@ -21,21 +21,58 @@
 			<span slot="t01">粮票总览1</span>
 			<span slot="t02">粮票总览2</span>
 		</store-btn>
+		<div class="black">{{$store.state.cartCount}}</div>
+		<!--vue-loading-tips-->
+		<loading :loadingShow="true" :showIcon="true" :loadingText="'loadingTextHere…'"></loading>
+		<!--v-message-->
+		<div class="mtop10" @click="showAreaChange">显示区域选择</div>
+		<div class="mtop10" @click="showMessage">加载数据 弹框</div>
+		<!--<v-message :messageShow="messageShow" :messageText="'请稍候'"></v-message>-->
+		<!--vue-area-change-->
+		<vue-area-change :isShow="areaShow"></vue-area-change>
+		
+		<transition name="fade" tag="div">
+			<div v-show="hasPrice">总览金额：2000</div>
+		</transition>
 	</div>
 </template>
 
 <script>
+	import './../components/message.css'
+	import Vue from 'vue'
+	import npmShowTips from 'npm-show-tips'
 	import qs from 'qs'
+	
+	import areaChange from 'vue-area-change'
+	Vue.use(areaChange)
+	
+	//使用组件<v-message></v-message>形式
+//	import messageTip from './../components/messageVue.js'
+	
+	//直接使用js生成组件形式
+//	import messageTip from './../components/messageEntry.js'
+	import messageTip from 'vue-show-message'
+	Vue.use(messageTip, {
+		duration: 2000
+	})
+	
 	export default {
 		//name: 'Home',
 		data() {
 			return {
 				ticketAmounts: [{"desc":"全平台通用","totalConsumMoneyDiv100":0.00,"balance":2657,"totalConvertMoneyDiv100":0.00,"totalConsumMoney":0,"totalConvertMoney":0,"subject":"平台粮票金额","balanceDiv100":26.57,"type":0},{"balanceDiv100":57.39,"totalConsumMoneyDiv100":0.00,"totalConsumMoney":0,"balance":5739,"subject":"体验店粮票金额","totalConvertMoneyDiv100":0.00,"totalConvertMoney":0,"type":1,"desc":"限解放区优选体验店（园景园名苑）使用"}],
+				messageShow: false,
+				hasPrice: false,
+				areaShow: false
 			}
 		},
 		mounted() {
 			console.log('changed');
 			this.getAjax();
+			npmShowTips.showMsg('show a message');
+			
+			console.log(messageTip, areaChange);
+			this.$showMsg();
 		},
 		methods: {
 			//post传参方式
@@ -81,6 +118,20 @@
 					}
 				})
 			}*/
+			showMessage() {
+				this.$showMsg('弹框提示信息');
+
+				//使用组件<v-message></v-message>形式
+//				this.messageShow = true
+				
+				this.togglePrice();
+			},
+			togglePrice() {
+				this.hasPrice = !this.hasPrice;
+			},
+			showAreaChange() {
+				this.areaShow = !this.areaShow;
+			}
 		}
 	}
 </script>

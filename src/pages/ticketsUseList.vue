@@ -23,22 +23,50 @@
 			</ul>
 		</div>
 		<loading :loadingShow="loadingShow" :showIcon="showIcon" :loadingText="loadingText"></loading>
-		{{cartCount}}
+		{{$store.state.cartCount}}
 		<store-btn newTitle="历史明细">
 			<span slot="t02">粮票总览2</span></store-btn>
 	</div>
 </template>
 
 <script>
+//	import Vue from 'vue'
+	import Mock from 'mockjs'
 	import qs from 'qs'
 	import {mapState} from 'vuex'
+	
+	/*import vueLazyload from 'vue-image-lazyload'
+	Vue.use(vueLazyload, {
+		loading: './../assets/loading01.gif',
+		lazyComponent: true
+	})*/
+	
 	export default {
 		data() {
 			return {
+				mockData: Mock.mock(/(\.json)|(\.do)/, {
+					// 属性 list 的值是一个数组，其中含有 1 到 10 个元素
+				    'list|7-15': [{
+				        // 属性 id 是一个自增数，起始值为 1，每次增 1
+				        'dateTime|+1': Mock.Random.now('yyyy-MM-dd HH:mm:ss'),
+				        'right_bottom|+1': '退款金额：7.00',
+				        'discount': null,
+				        'type': 0,
+				        'userName': '周三三',
+				        'userId|+1': 73568,
+				        'right_up|+1': '获取人：' + Mock.Random.cname(3),
+				        'id|+1': 1253001,
+				        'convertMoney|+1': 7.00,
+				        'left_bottom|+1': '退款成功',
+				        'left_up|+1': '2017-10-31 15:15:54',
+				    }],
+				    'status': '0000',
+				    'hasNext|1': Mock.Boolean,
+				}),
 				curTabIndex: 0,
 				tabs: ['已获得', '已消费'],
 				itemList: [],
-				itemListTab0: [ {"dateTime":"2017-10-31 15:15:54","right_bottom":"退款金额：7.00","discount":null,"type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1509434154000,"right_up":"兑换人:  埚牛","id":1253001,"convertMoney":7.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"退款成功","left_up":"2017-10-31 15:15:54"},{"dateTime":"2017-10-31 15:15:43","right_bottom":"退款金额：98.00","discount":null,"type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1509434143000,"right_up":"兑换人:  埚牛","id":1253000,"convertMoney":98.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"退款成功","left_up":"2017-10-31 15:15:43"},{"dateTime":"2017-09-19 19:40:03","right_bottom":"粮票金额:  500.00","discount":"参与活动获得","type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1505821203000,"right_up":"获取人:  埚牛","id":1252933,"convertMoney":500.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"参与活动","left_up":"2017-09-19 19:40:03"},{"dateTime":"2017-10-31 15:15:43","right_bottom":"退款金额：98.00","discount":null,"type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1509434143000,"right_up":"兑换人:  埚牛","id":1253000,"convertMoney":98.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"退款成功","left_up":"2017-10-31 15:15:43"},{"dateTime":"2017-09-19 19:40:03","right_bottom":"粮票金额:  500.00","discount":"参与活动获得","type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1505821203000,"right_up":"获取人:  埚牛","id":1252933,"convertMoney":500.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"参与活动","left_up":"2017-09-19 19:40:03"},{"dateTime":"2017-10-31 15:15:43","right_bottom":"退款金额：98.00","discount":null,"type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1509434143000,"right_up":"兑换人:  埚牛","id":1253000,"convertMoney":98.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"退款成功","left_up":"2017-10-31 15:15:43"},{"dateTime":"2017-09-19 19:40:03","right_bottom":"粮票金额:  500.00","discount":"参与活动获得","type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1505821203000,"right_up":"获取人:  埚牛","id":1252933,"convertMoney":500.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"参与活动","left_up":"2017-09-19 19:40:03"} ],
+				itemListTab0: [ {"dateTime":"2017-10-31 15:15:54","right_bottom":"退款金额：7.00","discount":null,"type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1509434154000,"right_up":"兑换人:  埚牛","id":1253001,"convertMoney":7.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"退款成功","left_up":"2017-10-31 15:15:54"},{"dateTime":"2017-10-31 15:15:43","right_bottom":"退款金额：98.00","discount":null,"type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1509434143000,"right_up":"兑换人:  埚牛","id":1253000,"convertMoney":98.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"退款成功","left_up":"2017-10-31 15:15:43"},{"dateTime":"2017-09-19 19:40:03","right_bottom":"粮票金额:  500.00","discount":"参与活动获得","type":0,"userName":"韦先生","userId":73568,"dateTimeLong":1505821203000,"right_up":"获取人:  埚牛","id":1252933,"convertMoney":500.00,"userHuaId":"73568","ext_room_isAdmin":false,"left_bottom":"参与活动","left_up":"2017-09-19 19:40:03"} ],
 				itemListTab1: [],
 				tabPage0: 1,
 				tabPage1: 1,
@@ -49,7 +77,9 @@
 				showIcon: true,
 				loadingText: '加载中…',
 				isScrolling: true,
-				page: 1
+				page: 1,
+				img001: '../assets/icon_record.png',
+				img002: '../assets/icon_record_used.png'
 			}
 		},
 		mounted: function() {
@@ -57,8 +87,6 @@
 
 			//加载首屏记录
 			self.getAjax();
-			
-//			this.setCount(9);
 
 			window.onscroll = function() {
 				self.loadNextPage();
@@ -99,7 +127,7 @@
 			getAjax() {
 				const self = this;
 				//config/index.js里设置代理proxyTable
-				const url = '../api/common/toUrl.do';
+				const url = 'aaa.do';
 //				const url = '../common/toUrl.do';
 				let curItemList = self['itemListTab' + self.curTabIndex];
 				let curPage = self['tabPage' + self.curTabIndex];
@@ -126,8 +154,9 @@
 				}
 
 				self.$axios.post(url, qs.stringify(dataParams)).then(function(response) {
-					if(response.data.status === '0000'){
-						let newDataList = response.data.dataValue.list || [];
+					console.log(response);
+					if(response.status === 200){
+						let newDataList = response.data.list || [];
 	
 						self['itemListTab' + self.curTabIndex] = [].concat(curItemList, newDataList);
 						self.itemList = self['itemListTab' + self.curTabIndex];

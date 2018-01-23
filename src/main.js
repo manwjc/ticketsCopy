@@ -15,15 +15,28 @@ import api from './api/index.js'
 Vue.prototype.$api = api
 
 //全局引入.vue文件
-import loading from './components/loading'
+//调用.vue组件，使用Vue.component('loading', VueLoadingTips)调用
+//import loading from './components/loading'
+//Vue.component('loading', loading)
 import storeBtn from './components/storeBtn'
-Vue.component('loading', loading)
 Vue.component('store-btn', storeBtn)
+/*import message from './components/message'
+Vue.component('v-message', message)*/
+
+//自定义插件
+//调用.js模块或npm插件(js文件)，使用Vue.use(VueLoadingTips)调用
+//import loading from './lib/index.js'
+import loading from 'vue-loading-tips'
+Vue.use(loading)
+
+//import npmShowTips from 'npm-show-tips'
+//Vue.prototype.$npmShowTips = npmShowTips	//将方法添加在Vue原型上，可供全局使用
+
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+var ticketModel = new Vue({
   el: '#app',
   store,
   router,

@@ -25,7 +25,8 @@
 		<loading :loadingShow="loadingShow" :showIcon="showIcon" :loadingText="loadingText"></loading>
 		{{$store.state.cartCount}}
 		<store-btn newTitle="历史明细">
-			<span slot="t02">粮票总览2</span></store-btn>
+			<span slot="t02">粮票总览2</span>
+		</store-btn>
 	</div>
 </template>
 
@@ -172,7 +173,7 @@
 						} else {
 							self['tabPage' + self.curTabIndex] = curPage += 1;
 						}
-					}
+					} 
 				})
 			},
 			scrollEnd() {

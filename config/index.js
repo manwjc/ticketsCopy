@@ -6,23 +6,6 @@
 const path = require('path')
 console.log(path, process);
 
-//判断获取当前域名
-function getCurHost(project){
-	let curHref = '';
-	let curOrigin = path.request.responseURL;
-	let curProtocol = 'https';
-	if(curOrigin.indexOf('linlile.com.cn') > -1){
-		curHref = curProtocol + '//'+project+'.linlile.com.cn';
-	}else if(curOrigin.indexOf('linlile.cn') > -1){
-		curHref = curProtocol + '//'+project+'.linlile.cn';
-	}else if(curOrigin.indexOf('jiefangqu') > -1){
-		curHref = curProtocol + '//'+project+'.jiefangqu.com';
-	}else{
-		curHref = curProtocol + '//'+project+'.linlile.com.cn';
-	}
-	return curHref;
-}
-
 module.exports = {
   build: {
     env: require('./prod.env'),	// 使用 config/prod.env.js 中定义的编译环境

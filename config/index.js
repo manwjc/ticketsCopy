@@ -28,18 +28,19 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
+    //host: process.env.HOST,
     port: process.env.PORT || 8081,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {	// 需要 proxyTable 代理的接口（可跨域）//修改脚手架的东西后一定要npm run dev，否则不生效！！	
-      '/hostname': {
+      '/common': {
         target: 'https://www.linlile.com.cn/LA',	//设置你调用的接口域名和端口号 别忘了加http
         changeOrigin: true,
-        pathRewrite: {
+        /*pathRewrite: {
           '^/hostname': ''
           //这里理解成用‘/hostname’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/hostname/user/add’即可
-        }
+        }*/
       }
     },
     //如果不用pathRewrite，则要将接口路径中开头的名称，定义到此处，拼接后的接口路径为：target + /common/url.json

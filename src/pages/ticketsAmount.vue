@@ -93,8 +93,8 @@
 			//get传参方式
 			getAjax() {
 				const self = this;
-				const url = '../hostname/common/toUrl.do'; 	//开发环境，接口代理到本地，前面加上/api
-				//const url = '../common/toUrl.do';		//build 正式环境
+				//const url = '../hostname/common/toUrl.do'; 	//开发环境，接口代理到本地，前面加上/api
+				const url = '../common/toUrl.do';		//build 正式环境
 				let dataParams = {'detailUrl': '/livingPay/qryLivingPayItemList.json'}
 				//const url = '/commonjs/loan.data.json';	 //模拟生产接口
 				
